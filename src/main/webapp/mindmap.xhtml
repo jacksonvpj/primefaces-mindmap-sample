@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:mindmap value="#{mindmapBean.root}" style="width:100%;height:600px">
+            <p:ajax event="select" listener="#{mindmapBean.onNodeSelect}" />
+        </p:mindmap>
+
+        <p:dialog widgetVar="details" header="Node Details" resizable="false" modal="true"
+                  showEffect="fade" hideEffect="fade">
+            <h:outputText id="output" value="#{mindmapBean.selectedNode.data}" />
+        </p:dialog>
+
+    </h:form>
+</h:body>
+
+</html>
