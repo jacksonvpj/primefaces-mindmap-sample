@@ -7,12 +7,14 @@ import org.primefaces.model.mindmap.MindmapNode;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Named
 @RequestScoped
 public class MindmapBean implements Serializable {
 
     private MindmapNode root;
+
     private MindmapNode selectedNode;
 
     public MindmapBean() {
@@ -31,12 +33,40 @@ public class MindmapBean implements Serializable {
         return root;
     }
 
-    public void onNodeSelect(SelectEvent event) {
-        MindmapNode node = (MindmapNode) event.getObject();
-        //load children of select node and add via node.addNode(childNode);
+    public MindmapNode getSelectedNode() {
+        return selectedNode;
+    }
+    public void setSelectedNode(MindmapNode selectedNode) {
+        this.selectedNode = selectedNode;
     }
 
-    public void onNodeDblselect(SelectEvent event) {
-        this.selectedNode = (MindmapNode) event.getObject();
+    public void onNodeSelect(SelectEvent<MindmapNode> event) {
+        MindmapNode node = event.getObject();
+
+        //populate if not already loaded
+        if(node.getChildren().isEmpty()) {
+            Object label = node.getLabel();
+
+            if(label.equals("NS(s)")) {
+                for(int i = 0; i < 25; i++) {
+                    node.addNode(new DefaultMindmapNode("ns" + i + ".google.com", "Namespace " + i + " of Google", "82c542", false));
+                }
+            }
+            else if(label.equals("IPs")) {
+                for(int i = 0; i < 18; i++) {
+                    node.addNode(new DefaultMindmapNode("1.1.1."  + i, "IP Number: 1.1.1." + i, "fce24f", false));
+                }
+            }
+            else if(label.equals("Malware")) {
+                for(int i = 0; i < 18; i++) {
+                    String random = UUID.randomUUID().toString();
+                    node.addNode(new DefaultMindmapNode("Malware-"  + random, "Malicious Software: " + random, "3399ff", false));
+                }
+            }
+        }
+    }
+
+    public void onNodeDblselect(SelectEvent<MindmapNode> event) {
+        this.selectedNode = event.getObject();
     }
 }
