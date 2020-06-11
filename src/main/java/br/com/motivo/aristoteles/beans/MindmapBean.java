@@ -1,19 +1,22 @@
 package br.com.motivo.aristoteles.beans;
 
+import java.io.Serializable;
+import java.util.UUID;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.mindmap.DefaultMindmapNode;
 import org.primefaces.model.mindmap.MindmapNode;
 
-import javax.faces.bean.RequestScoped;
-import javax.inject.Named;
-import java.io.Serializable;
-import java.util.UUID;
-
-@Named
+@ManagedBean(name = "mindmapBean")
 @RequestScoped
 public class MindmapBean implements Serializable {
 
-    private MindmapNode root;
+	private static final long serialVersionUID = 8933331066064494295L;
+
+	private MindmapNode root;
 
     private MindmapNode selectedNode;
 
@@ -40,8 +43,8 @@ public class MindmapBean implements Serializable {
         this.selectedNode = selectedNode;
     }
 
-    public void onNodeSelect(SelectEvent<MindmapNode> event) {
-        MindmapNode node = event.getObject();
+	public void onNodeSelect(SelectEvent<MindmapNode> event) {
+		MindmapNode node = event.getObject();
 
         //populate if not already loaded
         if(node.getChildren().isEmpty()) {
@@ -66,7 +69,7 @@ public class MindmapBean implements Serializable {
         }
     }
 
-    public void onNodeDblselect(SelectEvent<MindmapNode> event) {
-        this.selectedNode = event.getObject();
+	public void onNodeDblselect(SelectEvent<MindmapNode> event) {
+		this.selectedNode = event.getObject();
     }
 }
